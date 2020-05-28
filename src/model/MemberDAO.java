@@ -4,12 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-import java.sql.Date;
-
-import com.sun.org.apache.regexp.internal.recompile;
 
 public class MemberDAO {
 	
@@ -135,7 +131,7 @@ public class MemberDAO {
 	}
 	
 	
-	//방법3 : 
+	//방법3 : Map계열 컬렉션을 사용
 	public Map<String, String> getMemberMap(String id,String pwd){
 		Map<String, String> maps = new HashMap<String, String>();
 		

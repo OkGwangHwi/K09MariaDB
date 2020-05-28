@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
@@ -69,6 +70,41 @@ public class BbsDAO {
 			System.out.println("자원반납시 예외발생");
 		}
 	}
+	
+	//방법3 : Map계열 컬렉션을 사용
+		public Map<String, String> getMemberMap(String id,String pwd){
+			Map<String, String> maps = new HashMap<String, String>();
+			
+			String sql = "SELECT id,pass,name FROM member "
+					+ " WHERE id=? AND pass=?";
+			try {
+				//prepared 객체 생성
+				psmt = con.prepareStatement(sql);
+				//쿼리문의 인파라미터 설정
+				psmt.setString(1, id);
+				psmt.setString(2, pwd);
+				//오라클로 쿼리문 전송 및 결과셋(ResultSet) 반환받음
+				rs = psmt.executeQuery();
+				//오라클이 반환해준 ResultSet이 있는지 확인
+				if(rs.next()) {
+					//true를 반환했다면 결과셋 있음
+					//DTO객체에 회원 레코드의 값을 저장한다.
+					maps.put("id",rs.getString(1));
+					maps.put("pass",rs.getString("pass"));
+					maps.put("name",rs.getString("name"));
+				}
+				else {
+					//false를 반환했다면 결과셋 없음
+					System.out.println("결과셋이 없습니다.");
+				}
+			}
+			catch (Exception e) {
+				System.out.println("getMemberDTO오류");
+				e.printStackTrace();
+			}
+			//DTO객체를 반환한다.
+			return maps;
+		}
 	
 	/*
 	 게시판 리스트에서 게시물의 갯수를 count()함수를 통해 구해서 반환함.
